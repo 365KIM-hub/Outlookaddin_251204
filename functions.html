@@ -3,34 +3,32 @@
 <head>
     <meta charset="UTF-8" />
     <title>Link Opener</title>
-    <!-- Microsoft Office.js 라이브러리 로드 (필수) -->
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
-    
+
+    <!-- Office.js 라이브러리 -->
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
     <script>
-        // 1. 오피스 초기화
-        Office.onReady();
+        // Outlook이 완전히 준비된 뒤 실행
+        Office.onReady(function () {
+            console.log("Office.js initialized");
+        });
 
-        // 2. 실행될 함수 정의 (매니페스트의 FunctionName과 일치해야 함)
+        // manifest.xml의 FunctionName = openNaver 와 반드시 일치해야 함
         function openNaver(event) {
-            const url = "https://www.naver.com"; // 열고 싶은 주소
+            const url = "https://www.naver.com";
 
-            // Office.js 전용 새 창 열기 API 사용
-            // (팝업 차단을 피하고 Outlook 내에서 안전하게 열기 위함)
+            // Outlook 공식 브라우저 열기 API
             if (Office.context.ui && Office.context.ui.openBrowserWindow) {
                 Office.context.ui.openBrowserWindow(url);
             } else {
-                // 예전 버전 Outlook을 위한 대체 코드
                 window.open(url, '_blank');
             }
 
-            // 3. Outlook에게 "동작 완료" 신호 보내기 (로딩 아이콘 멈춤)
-            if (event) {
-                event.completed();
-            }
+            // Outlook에 작업 완료 신호
+            event.completed();
         }
     </script>
 </head>
 <body>
-    <!-- 이 파일은 화면에 보이지 않고 백그라운드에서 실행되므로 본문은 비워둡니다 -->
 </body>
 </html>
